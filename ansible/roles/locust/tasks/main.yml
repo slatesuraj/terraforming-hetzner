@@ -1,0 +1,60 @@
+---
+# tasks file for locust
+- name: Update apt package cache
+  apt:
+    update_cache: yes
+  when: ansible_os_family == 'Debian'
+
+- name: Install required packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - python3-pip
+    - python3-venv
+    - git
+
+- name: Clone Locust repository
+  git:
+    repo: https://github.com/locustio/locust.git
+    dest: /opt/locust
+    version: master
+
+- name: Create a Python virtual environment
+  command: python3 -m venv /opt/locust/venv
+  environment:
+    PATH: "{{ ansible_env.PATH }}:/opt/locust/venv/bin"
+
+- name: Install Locust and dependencies
+  pip:
+    name:
+      - locust
+  become_user: root
+  environment:
+    PATH: "{{ ansible_env.PATH }}:/opt/locust/venv/bin"
+
+- name: Create a Locustfile directory
+  file:
+    path: /opt/locust/Locustfiles
+    state: directory
+
+- name: Create a systemd service for Locust
+  template:
+    src: locust-master.service.j2
+    dest: /etc/systemd/system/locust.service
+  notify: Reload systemd
+  when: "'locust-master' in ansible_hostname"
+
+- name: Create a systemd service for Locust
+  template:
+    src: locust-worker.service.j2
+    dest: /etc/systemd/system/locust.service
+  notify: Reload systemd
+  when: "'locust-worker' in ansible_hostname"
+
+- name: Start and enable Locust service
+  systemd:
+    name: locust
+    state: started
+    enabled: yes
+

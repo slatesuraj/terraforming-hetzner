@@ -1,0 +1,8 @@
+---
+- name: Setup Locust on Hetzner Cloud
+  hosts: all
+  gather_facts: yes
+  become: yes
+
+  roles:
+    - locust
