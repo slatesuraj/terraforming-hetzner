@@ -29,6 +29,7 @@
   pip:
     name:
       - locust
+    extra_args: "--break-system-packages"
   become_user: root
   environment:
     PATH: "{{ ansible_env.PATH }}:/opt/locust/venv/bin"
@@ -38,23 +39,28 @@
     path: /opt/locust/Locustfiles
     state: directory
 
+- name: Copy file to remote server
+  ansible.builtin.copy:
+    src: ../files/locustfile.py
+    dest: /opt/locust/Locustfiles/locustfile.py
+    mode: 0777
+
 - name: Create a systemd service for Locust
   template:
     src: locust-master.service.j2
     dest: /etc/systemd/system/locust.service
-  notify: Reload systemd
   when: "'locust-master' in ansible_hostname"
 
 - name: Create a systemd service for Locust
   template:
     src: locust-worker.service.j2
     dest: /etc/systemd/system/locust.service
-  notify: Reload systemd
   when: "'locust-worker' in ansible_hostname"
 
 - name: Start and enable Locust service
   systemd:
     name: locust
-    state: started
+    state: restarted
+    daemon_reload: yes
     enabled: yes
 

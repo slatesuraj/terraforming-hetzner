@@ -14,7 +14,15 @@ resource "hcloud_firewall" "locust" {
 
   rule {
     direction     = "in"
-    source_ips    = ["10.0.0.0/16"]
+    source_ips    = ["0.0.0.0/0"]
+    protocol      = "tcp"
+    port          = "22"
+    description   = "Allow SSH from anywhere"
+  }
+
+  rule {
+    direction     = "in"
+    source_ips    = ["0.0.0.0/0"]
     protocol      = "tcp"
     port          = "5557"
     description   = "Allow internal network communication"
@@ -27,12 +35,4 @@ resource "hcloud_firewall" "locust" {
     port          = "8089"   
     description   = "Allow HTTP traffic from the internet"
   }
-
-  #rule {
-  #  direction     = "out"
-  #  protocol      = "tcp"
-  #  port          = "-1"
-  #  destination_ips = ["0.0.0.0/0"]
-  #  description   = "Allow all outbound traffic"
-  #}
 }

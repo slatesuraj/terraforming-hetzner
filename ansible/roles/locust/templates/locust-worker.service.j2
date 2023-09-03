@@ -2,7 +2,7 @@
 Description=Locust load testing service
 
 [Service]
-ExecStart=/opt/locust/venv/bin/locust --locustfile=/opt/locust/Locustfiles/locustfile.py --worker --master-host=10.0.0.1 --host=https://www.mir.de
+ExecStart=/usr/local/bin/locust --locustfile=/opt/locust/Locustfiles/locustfile.py --worker --master-host=49.13.0.125 --host=https://www.mir.de
 WorkingDirectory=/opt/locust
 User=nobody
 Restart=always

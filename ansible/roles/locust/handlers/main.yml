@@ -1,7 +1,7 @@
 ---
 # handlers file for locust
-- name: Reload systemd
+- name: Restart locust
   systemd:
+    name: locust
     daemon_reload: yes
-    state: reloaded
-
+    state: restarted

@@ -1,0 +1,9 @@
+[locust-master]
+49.13.0.125
+
+[locust-worker]
+159.69.248.72
+49.13.83.61
+
+locust-master ansible_ssh_private_key_file=../../locust-ssh-key
+locust-worker ansible_ssh_private_key_file=../../locust-ssh-key
