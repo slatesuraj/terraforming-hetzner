@@ -34,11 +34,8 @@ resource "hcloud_server" "locust-master" {
     "cluster" = "locust"
   }
 
-  ssh_keys = [hcloud_ssh_key.locust-ssh.public_key]
+  ssh_keys = [hcloud_ssh_key.locust-ssh.id]
 
-  network {
-    network_id = hcloud_network.private_network.id
-  }
 }
 
 resource "hcloud_server" "locust-worker" {
@@ -56,10 +53,7 @@ resource "hcloud_server" "locust-worker" {
     "cluster" = "locust"
   }
 
-  ssh_keys = [hcloud_ssh_key.locust-ssh.public_key]
+  ssh_keys = [hcloud_ssh_key.locust-ssh.id]
 
-  network {
-    network_id = hcloud_network.private_network.id
-  }
 }
 

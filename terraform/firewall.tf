@@ -8,7 +8,15 @@ resource "hcloud_firewall" "locust" {
     direction     = "in"
     source_ips    = ["10.0.0.0/16"]
     protocol      = "tcp"
-    port          = "0-65535"
+    port          = "22"
+    description   = "Allow internal network communication"
+  }
+
+  rule {
+    direction     = "in"
+    source_ips    = ["10.0.0.0/16"]
+    protocol      = "tcp"
+    port          = "5557"
     description   = "Allow internal network communication"
   }
 
@@ -16,14 +24,15 @@ resource "hcloud_firewall" "locust" {
     direction     = "in"
     source_ips    = ["0.0.0.0/0"]
     protocol      = "tcp"
-    port          = "80"   
+    port          = "8089"   
     description   = "Allow HTTP traffic from the internet"
   }
 
-  rule {
-    direction     = "out"
-    protocol      = "tcp"
-    port          = "0-65535"
-    description   = "Allow all outbound traffic"
-  }
+  #rule {
+  #  direction     = "out"
+  #  protocol      = "tcp"
+  #  port          = "-1"
+  #  destination_ips = ["0.0.0.0/0"]
+  #  description   = "Allow all outbound traffic"
+  #}
 }
