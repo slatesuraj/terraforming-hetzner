@@ -1,6 +1,6 @@
 resource "hcloud_network" "private_network" {
   name       = "private-network"
-  ip_range   = "10.0.0.0/16"
+  ip_range   = var.network_cidr
 }
 
 resource "hcloud_network_subnet" "private_subnet" {

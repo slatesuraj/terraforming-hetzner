@@ -18,7 +18,7 @@ resource "hcloud_server" "locust-master" {
   name        = "locust-master-1"
   image       = "debian-12"
   server_type = "cx11"
-  location    = "fsn1"
+  location    = var.location
   backups     = false
 
   firewall_ids = [hcloud_firewall.locust.id]
@@ -43,7 +43,7 @@ resource "hcloud_server" "locust-worker" {
   name        = "locust-worker-${count.index + 1}"
   image       = "debian-12"
   server_type = "cx11"
-  location    = "fsn1"
+  location    = var.location
   backups     = false
 
   firewall_ids = [hcloud_firewall.locust.id]

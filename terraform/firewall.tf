@@ -6,7 +6,7 @@ resource "hcloud_firewall" "locust" {
   
   rule {
     direction     = "in"
-    source_ips    = ["10.0.0.0/16"]
+    source_ips    = [var.network_cidr]
     protocol      = "tcp"
     port          = "22"
     description   = "Allow internal network communication"
