@@ -1,1 +1,1 @@
-# terraforming-mir
+# terraforming-hetzner
